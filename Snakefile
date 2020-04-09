@@ -5,6 +5,13 @@ Adapted from:
 https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#data-dependent-conditional-execution
 """
 
+# Adding these in so it doesn't get confused if you try manually requesting
+# specific files, for example, "snakemake post/a/1.txt" will now complain about
+# a missing input instead of looking for a sample named "a/1.txt"
+wildcard_constraints:
+    sample="[a-z]+",
+    i="[0-9]+"
+
 rule all:
     """A target rule to define the desired final output.
     
@@ -103,3 +110,6 @@ checkpoint clustering:
                 for i in 1 2; do echo $i > clustering/{wildcards.sample}/$i.txt; done
             fi
         """
+
+rule clean:
+    shell: "rm -rf clustering/ post/ aggregated/"
