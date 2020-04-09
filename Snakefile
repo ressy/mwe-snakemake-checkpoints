@@ -26,7 +26,7 @@ def aggregate_input(wildcards):
     DAG afterwards to figure out what existing files can be matched to what
     requested inputs.
 
-    According to the DAG, per sample it goes:
+    According to the actual flow of files, per sample it goes:
     clustering -> intermediate -> aggregate
     clustering/{sample}/{i}.txt -> post/{sample}/{i}.txt -> aggregated/{sample}.txt
 
@@ -100,6 +100,6 @@ checkpoint clustering:
             if [[ {wildcards.sample} == "a" ]]; then
                 for i in 1 2 3; do echo $i > clustering/{wildcards.sample}/$i.txt; done
             else
-                for i in 1 2 3 4 5; do echo $i > clustering/{wildcards.sample}/$i.txt; done
+                for i in 1 2; do echo $i > clustering/{wildcards.sample}/$i.txt; done
             fi
         """
